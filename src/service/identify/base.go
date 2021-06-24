@@ -1,8 +1,8 @@
 package identify
 
 import (
+	"fmt"
 	"os"
-	"strconv"
 	"syscall"
 )
 
@@ -11,6 +11,7 @@ func BaseInfo() map[string]string {
 	finfo = buildWithFilename(finfo)
 	finfo = buildWithStatInfo(finfo)
 	finfo = buildWithAccessInfo(finfo)
+	finfo = SimpleIdentify(finfo)
 	return finfo
 }
 
@@ -21,7 +22,17 @@ func buildWithStatInfo(_m map[string]string) map[string]string {
 		panic(err)
 	}
 
-	_m["size"] = strconv.FormatInt(fstat.Size(), 10)
+	var size string
+	var _size int64 = fstat.Size()
+	if _size >= 0 && _size <= 1024*1024 {
+		size = fmt.Sprintf("%.1f", float64(_size)/1024) + "K"
+	} else if _size >= 1024*1024 || _size <= 1024*1024*1024 {
+		size = fmt.Sprintf("%.1f", float64(_size)/1024/1024) + "M"
+	} else {
+		size = fmt.Sprintf("%.1f", float64(_size)/1024/1024/1024) + "G"
+	}
+
+	_m["size"] = size
 	if fstat.IsDir() == true {
 		_m["type"] = "directory"
 	}

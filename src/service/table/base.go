@@ -10,7 +10,7 @@ import (
 func TablePrint(m map[string]string) {
 	const padding = 3
 	var lines = make([]string, 20)
-	const table_min_width int = 25
+	const table_min_width int = 50
 	const width int = table_min_width*2 + 1
 
 	var i int = 0
@@ -28,9 +28,6 @@ func TablePrint(m map[string]string) {
 		fmt.Fprintln(w, s)
 		fmt.Fprintln(w, strings.Repeat("-", width))
 	}
-	s := `word frequency           | the:23 of:22 to:15      |`
-	fmt.Fprintln(w, s)
-	fmt.Fprintln(w, strings.Repeat("-", width))
 	w.Flush()
 
 }
