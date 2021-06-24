@@ -33,10 +33,9 @@ func buildWithStatInfo(_m map[string]string) map[string]string {
 func buildWithAccessInfo(_m map[string]string) map[string]string {
 	err := syscall.Access(_m["name"], syscall.O_RDWR)
 	if err == nil {
-		_m["access"] = "read write"
+		_m["access"] = "writable"
 	} else {
-		_m["access"] = ""
-		panic(err)
+		_m["access"] = "non-writable"
 	}
 	return _m
 }

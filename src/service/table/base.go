@@ -10,6 +10,8 @@ import (
 func TablePrint(m map[string]string) {
 	const padding = 3
 	var lines = make([]string, 20)
+	const table_min_width int = 25
+	const width int = table_min_width*2 + 1
 
 	var i int = 0
 	for k, v := range m {
@@ -17,18 +19,18 @@ func TablePrint(m map[string]string) {
 		i += 1
 	}
 
-	w := tabwriter.NewWriter(os.Stdout, 25, 0, padding, ' ', tabwriter.StripEscape|tabwriter.Debug)
-	fmt.Fprintln(w, strings.Repeat("-", 25*2+1))
+	w := tabwriter.NewWriter(os.Stdout, table_min_width, 0, padding, ' ', tabwriter.StripEscape|tabwriter.Debug)
+	fmt.Fprintln(w, strings.Repeat("-", width))
 	for _, s := range lines {
-		if s == "" {
+		if s == "" || s[0] == '_' {
 			continue
 		}
 		fmt.Fprintln(w, s)
-		fmt.Fprintln(w, strings.Repeat("-", 25*2+1))
+		fmt.Fprintln(w, strings.Repeat("-", width))
 	}
 	s := `word frequency           | the:23 of:22 to:15      |`
 	fmt.Fprintln(w, s)
-	fmt.Fprintln(w, strings.Repeat("-", 25*2+1))
+	fmt.Fprintln(w, strings.Repeat("-", width))
 	w.Flush()
 
 }
