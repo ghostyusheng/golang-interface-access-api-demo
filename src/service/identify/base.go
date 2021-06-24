@@ -2,6 +2,7 @@ package identify
 
 import (
 	"os"
+	"strconv"
 	wcommon "widget/common"
 	wtext "widget/text"
 )
@@ -12,9 +13,14 @@ func BaseInfo() map[string]string {
 	finfo = SimpleIdentify(finfo)
 	finfo = buildWithStatInfo(finfo)
 	if finfo["_type"] == TEXT {
-		finfo["text"] = "1"
+		finfo = buildWithLineInfo(finfo)
 	}
 	return finfo
+}
+
+func buildWithLineInfo(_m map[string]string) map[string]string {
+	_m["lines"] = strconv.Itoa(wtext.CountTextLines(_m["name"]))
+	return _m
 }
 
 func buildWithStatInfo(_m map[string]string) map[string]string {
