@@ -9,9 +9,11 @@ import (
 func BaseInfo() map[string]string {
 	var finfo = make(map[string]string)
 	finfo = buildWithFilename(finfo)
-	finfo = buildWithStatInfo(finfo)
-	finfo = buildWithAccessInfo(finfo)
 	finfo = SimpleIdentify(finfo)
+	finfo = buildWithStatInfo(finfo)
+	if finfo["_type"] == TEXT {
+		finfo["text"] = "1"
+	}
 	return finfo
 }
 
