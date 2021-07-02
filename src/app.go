@@ -1,11 +1,11 @@
 package main
 
 import (
+	"service/business"
 	"service/identify"
-	"service/table"
 )
 
 func main() {
-	var finfo map[string]string = identify.BaseInfo()
-	table.TablePrint(finfo)
+	var f = identify.BaseInfo()
+	business.TablePrint(f)
 }

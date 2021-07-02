@@ -7,47 +7,53 @@ import (
 	wtext "widget/text"
 )
 
-func BaseInfo() map[string]string {
-	var finfo = make(map[string]string)
-	finfo = buildWithFilename(finfo)
-	finfo = SimpleIdentify(finfo)
-	finfo = buildWithStatInfo(finfo)
-	if finfo["_type"] == TEXT {
-		finfo = buildWithLineInfo(finfo)
+type F Finfo
+type Finfo struct {
+	Name           string
+	Genre          string
+	Lines          string
+	Mode           string
+	Size           string
+	Type           string
+	UserAccess     string
+	LastModifyTime string
+}
+
+var f = F{}
+
+func BaseInfo() F {
+	buildWithFilename()
+	SimpleIdentify()
+	buildWithStatInfo()
+	if f.Genre == TEXT {
+		buildWithLineInfo()
 	}
-	return finfo
+
+	return f
 }
 
-func buildWithLineInfo(_m map[string]string) map[string]string {
-	_m["lines"] = strconv.Itoa(wtext.CountTextLines(_m["name"]))
-	return _m
+func buildWithLineInfo() {
+	f.Lines = strconv.Itoa(wtext.CountTextLines(f.Name))
 }
 
-func buildWithStatInfo(_m map[string]string) map[string]string {
-	var fstat, err = os.Stat(_m["name"])
+func buildWithStatInfo() {
+	var fstat, err = os.Stat(f.Name)
 
 	if err != nil {
 		panic(err)
 	}
 
-	_m["size"] = wcommon.GetSizeByFileInfo(fstat)
+	f.Size = wcommon.GetSizeByFileInfo(fstat)
 	if fstat.IsDir() == true {
-		_m["type"] = "directory"
+		f.Type = "directory"
 	}
-	_m["mode"] = fstat.Mode().String()[1:]
-	_m["user_access"] = wtext.GetAnalyzedFileMode(fstat)
-	_m["last_modify_time"] = fstat.ModTime().Format("2006-01-02 15:04:05")
-	return _m
+	f.Mode = fstat.Mode().String()[1:]
+	f.UserAccess = wtext.GetAnalyzedFileMode(fstat)
+	f.LastModifyTime = fstat.ModTime().Format("2006-01-02 15:04:05")
 }
 
-func buildWithAccessInfo(_m map[string]string) map[string]string {
-	_m["access"] = wtext.GetAccessBySysCall(_m["name"])
-	return _m
-}
-
-func buildWithFilename(_m map[string]string) map[string]string {
-	_m["name"] = getFilename()
-	return _m
+func buildWithFilename() {
+	f.Name = getFilename()
 }
 
 func getFilename() string {

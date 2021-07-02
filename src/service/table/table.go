@@ -22,7 +22,7 @@ func TablePrint(m map[string]string) {
 	w := tabwriter.NewWriter(os.Stdout, table_min_width, 0, padding, ' ', tabwriter.StripEscape|tabwriter.Debug)
 	fmt.Fprintln(w, strings.Repeat("-", width))
 	for _, s := range lines {
-		if s == "" || s[0] == '_' {
+		if s == "" {
 			continue
 		}
 		fmt.Fprintln(w, s)
