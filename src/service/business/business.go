@@ -19,5 +19,6 @@ func transferFinfoToOrderedMap(f identify.F) map[string]string {
 	m["last modify time"] = f.LastModifyTime
 	m["mode"] = f.Mode
 	m["lines"] = f.Lines
+	m["keywords"] = f.Keywords
 	return m
 }

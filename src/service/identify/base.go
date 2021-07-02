@@ -17,6 +17,7 @@ type Finfo struct {
 	Type           string
 	UserAccess     string
 	LastModifyTime string
+	Keywords       string
 }
 
 var f = F{}
@@ -27,9 +28,14 @@ func BaseInfo() F {
 	buildWithStatInfo()
 	if f.Genre == TEXT {
 		buildWithLineInfo()
+		buildWithKeywordInfo()
 	}
 
 	return f
+}
+
+func buildWithKeywordInfo() {
+	f.Keywords = wtext.CountTextKeywords(f.Name)
 }
 
 func buildWithLineInfo() {
