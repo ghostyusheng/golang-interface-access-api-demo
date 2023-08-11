@@ -1,13 +1,12 @@
-# finfo
+### Introduction
+A simple Http file fetcher wrote in golang with access control.
 
-先自己玩玩
-
-# install
+# Install
 ``` 
 go env -w GOBIN=$HOME/bin
 go env -w GO111MODULE=auto
 ```
 
 
-# debug
+# Debug
 `gomacro`
